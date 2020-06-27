@@ -1,0 +1,105 @@
+html *
+{
+   font-family: arial, sans-serif !important;
+}
+
+
+.tg  
+{
+	border-collapse:collapse;
+	border-color:#bbb;
+	border-spacing:0;
+	margin : 0 auto;
+}
+.tg td
+{
+	background-color:#E0FFEB;
+	border-color:#bbb;
+	border-style:solid;
+	border-width:1px;
+	color:#594F4F;
+  	font-family:Arial, sans-serif;
+  	font-size:14px;
+  	overflow:hidden;
+  	padding:10px 5px;
+  	word-break:normal;
+}
+
+.tg th
+{
+	background-color:#9DE0AD;
+	border-color:#bbb;
+	border-style:solid;
+	border-width:1px;
+	color:#493F3F;
+  	font-family:Arial, sans-serif;
+  	font-size:14px;
+  	font-weight:normal;
+  	overflow:hidden;
+  	padding:10px 5px;
+  	word-break:normal;
+}
+
+.tg .tg-c3ow
+{
+	border-color:inherit;
+	text-align:center;
+	vertical-align:top
+}
+
+.tg .tg-0pky
+{
+	border-color:inherit;
+	text-align:left;
+	vertical-align:top
+}
+
+.MoreButton {
+  background-color:#9DE0AD;
+  border: none;
+  color:#594F4F;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: auto;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.MoreButton1 {
+  background-color:#9DE0AD;
+  border: none;
+  color:#594F4F;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: auto;
+  cursor: pointer;
+  border-radius: 12px;
+  margin-left:3em;
+}
+
+.container1 {
+  height: 200px;
+  position: relative;
+  padding : 0px;
+  text-align : center;
+  
+}
+
+ion-icon
+{
+	font-size: 64px;
+	color: #4CAF50;	
+	 	
+}
+		
+.column ion-icon:hover
+{
+	background-color: #4CAF50;
+  	color: white;
+}
