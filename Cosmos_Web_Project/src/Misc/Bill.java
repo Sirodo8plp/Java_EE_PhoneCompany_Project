@@ -68,11 +68,13 @@ public class Bill {
     	catch( Exception e) {e.printStackTrace(); }
     }
     
-    public void set_bill_sv(HttpServletRequest request) 
+    public void set_bill_sv(HttpServletRequest request , String past) 
     {
     	request.getSession().setAttribute("currentBill", current_bill);
     	request.getSession().setAttribute("debtt", previous_debt);
     	request.getSession().setAttribute("subcharge", current_bill +" €");
+    	if (past.equals("pay_charge") && current_bill==0.0 && previous_debt==0.0 ) request.getSession().setAttribute("infooo", "Έχετε πληρώσει όλες τις οφειλές σας.");
+		else request.getSession().setAttribute("infooo", "");
     }
     
     public void append(Statement stmt) 

@@ -54,6 +54,10 @@ public class Login extends HttpServlet {
 			String password = request.getParameter("pswrd");
 			StringBuilder user_type = new StringBuilder();
 			
+			//for quick access buttons in homepage
+			String past = request.getParameter("quick_access");
+			request.getSession().setAttribute("quick_access", past);
+			
 			String proceed = Users.login(username, password, stmt , user_type);
 			
 			if(proceed.equals("")) 
@@ -66,10 +70,9 @@ public class Login extends HttpServlet {
 						client.set_profile_sv(request);
 						client.program.set_Program_sv(stmt, request);
 						client.bill.setPrevious_debt(client.getDebt());
-						client.bill.set_bill_sv(request);
+						client.bill.set_bill_sv(request , past);
 						client.program.set_Remaining_Program_SV(request);
 						request.getSession().setAttribute("Client", client); // add to session
-						request.getSession().setAttribute("infooo", ""); // add to session
 						request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
 						break;
 					case("sellers"):

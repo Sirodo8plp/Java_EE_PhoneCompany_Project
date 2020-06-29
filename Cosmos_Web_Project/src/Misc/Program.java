@@ -167,6 +167,38 @@ public class Program {
     		request.getSession().setAttribute("infooo", "Σφάλμα κατά την αλλαγή προγράμματος.");
     	}
     }
+    
+    public void refresh_balance(Statement stmt , HttpServletRequest request) 
+    {
+    	boolean flag = true;
+    	int min = 0 , s = 0 , m=0;
+    	try 
+    	{
+    		ResultSet rs = stmt.executeQuery("Select * from subs where subname='" + SubscriptionName + "'");
+    		while(rs.next()) {
+    			if(minutes==rs.getInt("minutes") && sms == rs.getInt("sms") && mb == rs.getInt("mb")) {
+    				request.getSession().setAttribute("infooo", "Δεν υπάρχει λόγος ανανέωσης υπολοίπου.");
+    				flag = false;
+    			}
+    			else {
+    				min = rs.getInt("minutes");
+    				s = rs.getInt("sms");
+    				m = rs.getInt("mb");
+    				minutes = min;
+    				sms = s;
+    				mb = m;
+    			}
+    		}
+    		if (flag) {
+    			stmt.executeUpdate("update client_subs set minutes="+String.valueOf(min)+",sms=" + String.valueOf(s)
+				+",mb=" + String.valueOf(m)+" where client_id="+String.valueOf(client_id));
+    			request.getSession().setAttribute("infooo", "Επιτυχής ανανέωση υπολοίπου.");
+    		}
+    	}
+    	catch(Exception e) {e.printStackTrace();}
+    	request.getSession().setAttribute("quick_access", "");
+    	return;
+    }
 
     public void setCharge(int min , int sms , int mb , float cmin , float csms , float cmb) {
     	if(min==-1) min = 0;

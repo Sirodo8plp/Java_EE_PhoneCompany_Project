@@ -21,6 +21,11 @@
 			
 			Table : client_subs | minleft , mbleft , smsleft
 -->
+
+<input type="text" style="display:none" id="q_a" value="${quick_access}">
+<input type="text" style="display:none" id="client_charge" value="${currentBill}">
+<input type="text" style="display:none" id="client_debt" value="${debtt}">
+
 <div style="position:absolute;top:0;left:0;font-size:35px;color:#4CAF50">
 	<p style="font-size:40;">${infooo} </p>
 </div>
@@ -177,10 +182,10 @@
 				<label style="color:#4CAF50;">${mbleft}</label><label style="text-align:center;color:#475a57">	ΜΒ</label><br>
 				<label style="color:#4CAF50;">${smsleft}</label><label style="text-align:center;color:#475a57">	sms</label><br>	
 				<br><label style="color:#FF0000">Αν αλλάξετε πρόγραμμα τα υπόλοιπα λεπτά ομιλίας,<br>δεδομένα και sms θα χαθούν.</label><br>
-				<br><label style="color:#8B0000">Δεν μπορείται να αλλάξετε πρόγραμμα αν δεν έχετε<br>πληρώσει τον τρέχων λογαριασμό ή<br>
+				<br><label style="color:#8B0000" id="warning_change_sub">Δεν μπορείται να αλλάξετε πρόγραμμα αν δεν έχετε<br>πληρώσει τον τρέχων λογαριασμό ή<br>
 				αν έχετε προηγούμενες οφειλές.</label>
 				<br>
-				<button class="MoreButton" onclick="pay_sub()">Πληρωμή Λογαριασμού</button>
+				<button class="MoreButton" onclick="pay_sub()" id="pay_charge_button">Πληρωμή Λογαριασμού</button>
 				<br><br><br>
 				<h1 style="text-align:center;font-size:26px;color:#475a57;">Επιλογή προγράμματος</h1>
 				<div class="box">
@@ -209,7 +214,7 @@
 	<div  id="pay_bill" style="display:none">
 		<div style="text-align:center">
 			<form method="post" action="Pay_Account" id="pay_sub_bill">
-				<h1 style="text-align:center;font-size:26px;color:#475a57;">Πληρωμή Λογαριασμού</h1><br>
+				<h1 style="text-align:center;font-size:26px;color:#475a57;" id="pay_what">Πληρωμή Λογαριασμού</h1><br>
 				<h1 style="text-align:center;font-size:26px;color:#475a57;">Αριθμός Κάρτας</h1><br>
 				<img id="bank" width="50" height="50" style="visibility:hidden"><br>
 				<input name="card_number" class="InputTexts1" type="text" id ="card_number" maxlength = "16" pattern="[0-9]{16}" onkeyup="define_card(this)"><br><br>

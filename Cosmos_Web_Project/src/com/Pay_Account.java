@@ -42,8 +42,9 @@ public class Pay_Account extends HttpServlet {
 			Statement stmt = con.createStatement();
 			Client client = (Client)request.getSession().getAttribute("Client");
 			client.bill.pay_bill(stmt , request);
-			client.bill.set_bill_sv(request);
+			client.bill.set_bill_sv(request,"");//no quick access button was set
 			request.getSession().setAttribute("Client", client); // add to session
+			request.getSession().setAttribute("quick_access", "");
 			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
 		}
 		catch(Exception e) {e.printStackTrace();}

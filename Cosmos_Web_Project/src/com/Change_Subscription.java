@@ -58,6 +58,7 @@ public class Change_Subscription extends HttpServlet {
 				client.bill.setCurrent_bill(client.program.getCharge());
 				client.bill.setPrevious_debt(0);
 			}
+			request.getSession().setAttribute("quick_access", "");
 			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
 		}
 		catch(Exception e) {

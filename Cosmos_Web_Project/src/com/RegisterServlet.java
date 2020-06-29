@@ -97,7 +97,7 @@ public class RegisterServlet extends HttpServlet {
 			    	client.set_profile_sv(request);
 					client.program.set_Program_sv(stmt, request);
 					client.program.set_Remaining_Program_SV(request);
-					client.bill.set_bill_sv(request);
+					client.bill.set_bill_sv(request,"");//"" null past-no quick access button was pressed
 			    	request.getSession().setAttribute("Client", client);
 			    	request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
 			    }

@@ -34,10 +34,9 @@
 	
 	<header>
 		<div class="scrollermenu">
-			<a href="pay"><ion-icon name="wallet"></ion-icon><br>Πληρωμή<br>Λογαριασμού</a>
-			<a href="refresh"><ion-icon name="finger-print"></ion-icon><br>Ανανέωση<br>Υπολοίπου Καρτοκινητής</a>
-			<a href="refresh1"><ion-icon name="document-text"></ion-icon><br>Ανανέωση<br>Συμβολαίου Καρτοκινητής</a>
-			<a href="refresh2"><ion-icon name="call"></ion-icon><br>Αναβάθμηση<br>Σταθερής</a>
+			<a href="#log" onclick="return quick_access(1);"><ion-icon name="wallet"></ion-icon><br>Πληρωμή<br>Λογαριασμού</a>
+			<a href="#log" onclick="return quick_access(2);"><ion-icon name="finger-print"></ion-icon><br>Ανανέωση<br>Υπολοίπου Καρτοκινητής</a>
+			<a href="#log" onclick="return quick_access(3);"><ion-icon name="document-text"></ion-icon><br>Ανανέωση<br>Συμβολαίου Καρτοκινητής</a>
 		</div>
 	</header>
 	
@@ -89,6 +88,7 @@
 				<a href="register.jsp">Δεν έχετε λογαριασμό;</a>
 				<br><br>
 				<label style="color:maroon;font-size:30px;" id="target">${error_message}</label>
+				<input style="display:none" id="quick_access" name="quick_access" value="">
 			</form>
 		</div>
 		
@@ -112,6 +112,12 @@ function scrollFunction() {
 function topFunction() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
+}
+
+function quick_access(i){
+	if (i == 1) document.getElementById("quick_access").value = "pay_charge";
+	else if (i==2) document.getElementById("quick_access").value = "refresh_account";
+	else document.getElementById("quick_access").value = "change_subscription";
 }
 </script>	
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>	

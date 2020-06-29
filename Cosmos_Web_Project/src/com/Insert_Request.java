@@ -49,6 +49,7 @@ public class Insert_Request extends HttpServlet {
 			client.Add_Request((String)request.getParameter("problem"), stmt, request);
 			
 			request.getSession().setAttribute("Client", client); // add to session
+			request.getSession().setAttribute("quick_access", "");
 			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
 			
 		}

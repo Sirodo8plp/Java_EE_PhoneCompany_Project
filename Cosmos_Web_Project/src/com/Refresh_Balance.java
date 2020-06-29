@@ -14,8 +14,8 @@ import javax.sql.DataSource;
 
 import People.Client;
 
-@WebServlet("/Update_Account")
-public class Update_Account extends HttpServlet {
+@WebServlet("/Refresh_Balance")
+public class Refresh_Balance extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private DataSource datasource = null;
@@ -31,24 +31,21 @@ public class Update_Account extends HttpServlet {
 
 	}
 	
-    public Update_Account() {
+    public Refresh_Balance() {
         super();
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try {
+		try 
+		{
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
 			Client client = (Client)request.getSession().getAttribute("Client");
-			
-			client.Update_Account(request.getParameter("newUsername"), request.getParameter("newEmail"), 
-					request.getParameter("newFname"), request.getParameter("newLname"), stmt, request);
-			
+			client.program.refresh_balance(stmt , request);
+			client.program.set_Remaining_Program_SV(request);
 			request.getSession().setAttribute("Client", client); // add to session
-			request.getSession().setAttribute("quick_access", "");
 			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
-			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
