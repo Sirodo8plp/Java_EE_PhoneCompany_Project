@@ -14,8 +14,8 @@ import javax.sql.DataSource;
 
 import People.Seller;
 
-@WebServlet("/Complete_Request")
-public class Complete_Request extends HttpServlet {
+@WebServlet("/Update_Seller_Account")
+public class Update_Seller_Account extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private DataSource datasource = null;
@@ -31,22 +31,21 @@ public class Complete_Request extends HttpServlet {
 
 	}
 	
-    public Complete_Request() {
+    public Update_Seller_Account() {
         super();
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
+		try {
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
 			Seller seller = (Seller)request.getSession().getAttribute("Seller");
-			seller.Answer_Request(request.getParameter("req_id"), request.getParameter("answer"), stmt, request);
+			seller.Update_Account(request.getParameter("newUsername"), request.getParameter("newEmail"), 
+					request.getParameter("newFname"), request.getParameter("newLname"), stmt, request);
 			request.getSession().setAttribute("Seller", seller); // add to session
 			request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
 		}
 		catch(Exception e) {e.printStackTrace();}
 	}
-
 }

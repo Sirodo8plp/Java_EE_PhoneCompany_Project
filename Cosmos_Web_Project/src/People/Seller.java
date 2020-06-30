@@ -4,6 +4,8 @@ import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +15,8 @@ public class Seller extends Users{
     private int CustomersCount;
     private String ShopLocation;
     private String SellerCode , email , saltPass , salt;
-
+    public List<List<String>> requests = new ArrayList<List<String>>();  
+    
     // Constructor.
     public Seller(String username , String name , String surname , String status , String SellerCode , String email , String password){
         super(username,name,surname,status);
@@ -50,6 +53,7 @@ public class Seller extends Users{
     			email = rs.getString("email");
     			setName(rs.getString("fname"));
     			setSurname(rs.getString("lname"));
+    			setId(rs.getInt("id"));
     		}
     	}
     	catch(Exception e) 
@@ -91,8 +95,135 @@ public class Seller extends Users{
     	request.getSession().setAttribute("email", email);
     	request.getSession().setAttribute("firstname", getName());
     	request.getSession().setAttribute("lastname" , getSurname());
+    	request.getSession().setAttribute("infooo", "");
+    }
+    
+    public void Update_Account(String username , String email , String fname , String lname , Statement stmt , HttpServletRequest request) 
+    {
+if (username.equals("") && email.equals("") && fname.equals("") && lname.equals("")) {
+    		
+    		request.getSession().setAttribute("infooo", "Δεν έγινε καμία αλλαγή στον λογαριασμό σας.");
+    		return;
+    	}
+    	
+    	String info = ""; //for any errors
+    	String sql = "Update sellers set ";
+    	try {
+    		
+    		if (!username.equals("")) {
+    			
+    			ResultSet rs = stmt.executeQuery("Select * from users where username='" + username + "'");
+        		if (rs.next()) info += "Το όνομα σύνδεσης χρήστη υπάρχει ήδη.";
+        		else {
+        			setUsername(username);
+    				request.getSession().setAttribute("username", username);
+    				sql += "username='" + username + "'";
+        		}
+    		}
+    		
+    		if(!email.equals("")) {
+    			
+    			ResultSet rs = stmt.executeQuery("Select * from sellers where email='" + username + "'");
+        		if(rs.next()) info += "Το email χρησιμοποιείται ήδη.";
+        		else {
+        			this.email = email;
+        			request.getSession().setAttribute("email", email);
+        			sql +=  sql.equals("Update sellers set ") ? "email='" + email + "'" : ",email='" + email + "'";
+        		}
+    		}
+    		
+    		if(info.equals("")) {
+    			
+    			if (!username.equals("")) stmt.executeUpdate( "Update users set username='" + username + "' where id=" + getId() + "" );
+    			
+    			if (!fname.equals("")) {
+    				setName(fname);
+    				request.getSession().setAttribute("firstname", fname);
+    				sql += sql.equals("Update sellers set ") ? "fname='" + fname + "'" : ",fname='" + fname + "'";
+    			}
+    			
+    			if (!lname.equals("")) {
+    				setSurname("");
+    				request.getSession().setAttribute("lastname", lname);
+    				sql += sql.equals("Update sellers set ") ? "lname='" + lname + "'" : ",lname='" + lname + "'" ;
+    			}
+    			
+    			sql += " where id=" + getId();
+    			
+    			stmt.executeUpdate(sql);
+    			request.getSession().setAttribute("infooo", "Επιτυχής ενημέρωση λογαριασμού.");
+    			return;
+    		}
+    		else {
+    			request.getSession().setAttribute("infooo", info );
+    			return;
+    		}
+    	}
+    	catch(Exception e) {e.printStackTrace();
+    	System.out.println(sql);}
     }
 
+    public void Create_Payment(String pn , String date , String price , Statement stmt , HttpServletRequest request)
+    {
+    	//check if phone exists
+    	try {
+    		ResultSet rs = stmt.executeQuery("Select * from client where phonenumber="+pn);
+    		if (!rs.next()) {
+    			request.getSession().setAttribute("infooo", "Δε βρέθηκε πελάτης με τέτοιον αριθμό.");
+    			return;
+    		}
+    		rs = stmt.executeQuery("Select * from bill where phonenumber=" + pn);
+    		if (rs.next()) {
+    			request.getSession().setAttribute("infooo", "Έχει ήδη εκδοθεί λογαριασμός για<br>τον αριθμό "+pn);
+    			return;
+    		}
+    		
+    		stmt.executeUpdate("Insert into bill values("+pn+",'"+date+"',"+price+")");
+    		request.getSession().setAttribute("infooo", "Επιτυχής δημιουργία λογαριασμού.");
+    	}
+    	catch(Exception e) {e.printStackTrace();
+    	request.getSession().setAttribute("infooo", e);}
+    	return;
+    }
+    
+    public void Collect_Requests(Statement stmt) {
+    	try {
+    		ResultSet rs = stmt.executeQuery("Select * from requests");
+    		while(rs.next()) {
+    			List<String> l = new ArrayList<>();
+    			l.add(String.valueOf(rs.getInt("id")));
+    			l.add(rs.getString("request_giver"));
+    			l.add(rs.getString("add_info"));
+    			requests.add(l);
+    		}
+    	}
+    	catch(Exception e) {e.printStackTrace();}
+    }
+    
+    public void Answer_Request(String req_id , String response , Statement stmt , HttpServletRequest request) 
+    {
+    	try 
+    	{
+    		if(response.equals("")) {
+    			request.getSession().setAttribute("infooo", "Η απάντηση δεν είναι έγκυρη.");
+    		}
+    		else {
+    			//get request id
+    			int i =0;
+    			ResultSet rs = stmt.executeQuery("Select max(id) from responses");
+    			if(rs.next()) i = rs.getInt("max") + 1;
+    			
+    			//first change requests table
+        		stmt.executeUpdate("update requests set answer=true where id=" + req_id);
+        		
+        		//insert to responses
+        		stmt.executeUpdate("Insert into responses values("+String.valueOf(i)+",'"+getUsername()+"','"+response+"')");
+        		request.getSession().setAttribute("infooo", "Η απάντηση καταχωρήθηκε.");
+    		}
+    	}
+    	catch(Exception e) {e.printStackTrace();}
+    }
+    
     public String getEmail() {
 		return email;
 	}
@@ -122,7 +253,6 @@ public class Seller extends Users{
 
     }
 
-    public void Create_Payment(Client client){}
 
     public void Change_Subscription(){}
 

@@ -14,8 +14,8 @@ import javax.sql.DataSource;
 
 import People.Seller;
 
-@WebServlet("/Complete_Request")
-public class Complete_Request extends HttpServlet {
+@WebServlet("/Create_Client_Bill")
+public class Create_Client_Bill extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private DataSource datasource = null;
@@ -30,19 +30,19 @@ public class Complete_Request extends HttpServlet {
 		}
 
 	}
-	
-    public Complete_Request() {
+    
+	public Create_Client_Bill() {
         super();
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
+		try {
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
 			Seller seller = (Seller)request.getSession().getAttribute("Seller");
-			seller.Answer_Request(request.getParameter("req_id"), request.getParameter("answer"), stmt, request);
+			seller.Create_Payment(request.getParameter("client_phonenumber"), request.getParameter("bill_date"),
+					request.getParameter("bill_price") , stmt , request);
 			request.getSession().setAttribute("Seller", seller); // add to session
 			request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
 		}

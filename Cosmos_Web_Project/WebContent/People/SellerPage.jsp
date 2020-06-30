@@ -1,61 +1,74 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8" session="true"%>
+    pageEncoding="utf-8" session="true"
+    import="People.Seller"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/cssFolder/seller.css">
 	<meta charset="utf-8">
 	<title>Κεντρική σελίδα Πωλητή</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
-<body style = "background-color:color:#475a57;">
+<body style = "background-color : rgb(212,207,199);">
 
+	<div style="position:absolute;top:0;left:0;font-size:35px;color:#4CAF50">
+		<p style="font-size:40;">${infooo} </p>
+	</div>
+	
 	<div class = "content">
 		<div class="header">
 			<div class="topnav">
-			  	<a href="#main">Αρχική</a>
-			  	<a href="#requests">Αιτήματα</a>
-			  	<a href="#info">Πληροφορίες</a>
-			  	<a href="#logout">Αποσύνδεση</a>
+			  	<a href="#requests" onclick="return show_requests();">Αιτήματα</a>
+			  	<a href="logout">Αποσύνδεση</a>
 			</div>
 		</div>
 	</div>
 	
-	<h3 style="text-align:center;font-size:42px;color:#475a57;"> <strong> Καλώς Ήρθατε ${username}
-	</strong></h3>
+	<h3 style="text-align:center;font-size:42px;color:#475a57;" id="top"> <strong> Καλώς Ήρθατε ${username}</strong></h3>
 		
-	<table style="margin: 0px auto;">
-		<tr>
-			<td><img src = "${pageContext.request.contextPath}/images/seller_image.jpg" style="float:left;"></td>
-			<td>
-				<label style="margin-left:5em;color:#475a57">Όνομα Εισόδου χρήστη : </label><label style="color:#4CAF50;">${username}</label><br><br>
-				<label style="margin-left:5em;color:#475a57"> Email : </label><label style="color:#4CAF50;">${email}</label><br><br>
-				<label style="margin-left:5em;color:#475a57">Όνομα : </label><label style="color:#4CAF50;">${firstname}</label><br><br>
-				<label style="margin-left:5em;color:#475a57">Επώνυμο : </label><label style="color:#4CAF50;">${lastname}</label><br>
-			</td>
-		</tr>
-	</table>
+	<div id="initial_profile">
+		<table style="margin: 0px auto;">
+			<tr>
+				<td><img src = "${pageContext.request.contextPath}/images/seller_image.jpg" style="float:left;"></td>
+				<td>
+					<label style="margin-left:5em;color:#475a57">Όνομα Εισόδου χρήστη : </label><label style="color:#4CAF50;">${username}</label><br><br>
+					<label style="margin-left:5em;color:#475a57"> Email : </label><label style="color:#4CAF50;">${email}</label><br><br>
+					<label style="margin-left:5em;color:#475a57">Όνομα : </label><label style="color:#4CAF50;">${firstname}</label><br><br>
+					<label style="margin-left:5em;color:#475a57">Επώνυμο : </label><label style="color:#4CAF50;">${lastname}</label><br>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<br><br>
+	
+	<div style="text-align:center" id="initial_profile_button">
+		<button class="MoreButton" onclick="account_options()">Ρυθμίσεις Λογαριασμού</button>
+	</div>
 	
 	<br><br><br><br><br><br>
 		
 	<div class ="row">
 		<div class = "column">			
-			<div class="container2">
-				<ion-icon name="add-circle-sharp"></ion-icon>
+			<div class="container2" id="add_c_button">
+				<a onclick="return add_c();"><ion-icon name="add-circle-sharp"></ion-icon></a>
 				<p style = "font-size:20px;color:#475a57;"> Προσθήκη νέου πελάτη.</p>
 			</div>	
 		</div>
 		<div class = "column">
 			<div class="container2">
 				<a href="SubsServlet">  
-				<ion-icon name="list-circle-sharp"></ion-icon>
+					<ion-icon name="list-circle-sharp"></ion-icon>
 				</a>
 				<p style = "font-size:20px;color:#475a57;"> Διαθέσιμα προγράμματα.</p>
 			</div>
 		</div>
 		<div class = "column">
 			<div class="container2">
-				<ion-icon name="card-sharp"></ion-icon>
+				<a onclick="return CreateBill();">
+					<ion-icon name="card-sharp"></ion-icon>
+				</a>
 				<p style = "font-size:20px;color:#475a57;"> Έκδοση λογαριασμού πελάτη.</p>
 			</div>
 		</div>
@@ -77,12 +90,107 @@
 				.gmap_canvas {margin:auto;overflow:hidden;background:none!important;height:450px;width:450px;}
 			</style>
 		</div>
+	
+	
+	<div class="top_right_corner" style="display:none" id="create_bill">
+	
+		<form method="post" action="Create_Client_Bill">
+			<h3 style="text-align:center;font-size:42px;color:#475a57;"> <strong> Δημιουργία Λογαριασμού</strong></h3>
+			<label style="color:#475a57">Κινητό πελάτη</label><br><br>
+			<input class="InputTexts" name="client_phonenumber" required><br><br>
+			<label style="color:#475a57">Ημερομηνία</label><br><br>
+			<input class="InputTexts" name="bill_date" required><br><br>
+			<label style="color:#475a57">Ποσό Πληρωμής</label><br><br>
+			<input class="InputTexts" name="bill_price" required><br><br>
+			<button type="submit" class="MoreButton">Καταχώρηση</button><br><br>
+			<button type="button" onclick="document.getElementById('create_bill').style.display='none';" class="MoreButton">Ακύρωση</button>
+		</form>
 		
+	</div>
 	
+	<div class="container" id="options_profile" style="display:none">
+		<table style="margin: 0px auto;">
+			<tr>
+				<td><img src = "${pageContext.request.contextPath}/images/seller_image.jpg" style="float:left;">
+				</td>
+				<td>
+					<form id="account" method="post" action="Update_Seller_Account">
+						<label style="margin-left:5em;color:#475a57">Όνομα Εισόδου χρήστη : </label>
+						<input name="newUsername" class="InputTexts" type="text" id ="username" name="username" placeholder="<%= session.getAttribute("username") %>">
+						<br><br>
+						<label style="margin-left:5em;color:#475a57"> Email : </label><br>
+						<input name="newEmail" style="margin-left:3em;" class="InputTexts1" type="text" id ="username" name="username" placeholder="<%= session.getAttribute("email") %>">
+						<br><br>
+						<label style="margin-left:5em;color:#475a57">Όνομα : </label>
+						<input name="newFname" class="InputTexts" type="text" id ="username" name="username" placeholder="<%= session.getAttribute("firstname") %>">
+						<br><br>
+						<label style="margin-left:5em;color:#475a57">Επώνυμο : </label>
+						<input name="newLname" class="InputTexts" type="text" id ="username" name="username" placeholder="<%= session.getAttribute("lastname") %>">
+						<br>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
 	
+	<div style="text-align:center;display:none;" id="options_buttons">
+		<button class="MoreButton" form="account" type="submit">Αποθήκευση Ρυθμίσεων</button><br><br>
+		<button class="MoreButton" id="cancel_profile" onclick="show_profile()">Ακύρωση</button><br><br>
+	</div>	
 	
-	
-	
+	<div class="top_left_corner" style="display:none" id="add_client">
+		<form method="post" action="Seller_Ads_Client">
+			<h3 style="text-align:center;font-size:42px;color:#475a57;">Προσθήκη Πελάτη</h3>
+		
+			<label style="color:maroon">${reg_error}</label>
+			
+			<h1 style="color:#475a57">Όνομα σύνδεσης χρήστη</h1>
+			<br><br>
+			<input class="InputTexts" type="text" id ="username" name="username" required>
+			<h1 style="color:#475a57">Κωδικός</h1>
+			<br><br>
+			<input class="InputTexts" type="password" id = "password1" name="password1" required>
+			<h1 style="color:#475a57">Email</h1>
+			<br><br>
+			<input class="InputTexts" style="width:300px" type="email" id = "email" name="email" placeholder ="example@gmail.com" required>
+			<h1 style="color:#475a57">Κινητό/Σταθερό τηλέφωνο</h1>
+			<br><br>
+			<input class="InputTexts" style="width:300px" type="tel" pattern="[0-9]{10}" maxlength = "10" id = "number" name="number" required>
+			<h1 style="color:#475a57">Όνομα</h1>
+			<br><br>
+			<input class="InputTexts" type="text" id ="fname" name="fname" required>
+			<h1 style="color:#475a57">Επώνυμο</h1>
+			<br><br>
+			<input class="InputTexts" type="text" id="lname" name="lname" required>	
+			<h1 style="color:#475a57">Α.Φ.Μ</h1>
+			<br><br>
+			<input class="InputTexts" style="width:300px" type="text" id ="afm" name="afm"  maxlength = "9" pattern="[0-9]{9}"  required>	
+			<br><br>
+			<button class="MoreButton" type="submit">Καταχώρηση</button>
+			<button class="MoreButton" type="button" onclick="cancel_add_c();location.href='#top'">Ακύρωση</button>
+		</form>
+	</div>
+	<br><br>
+	<div style="text-align:center;display:none" id="requests">
+		<%
+		Seller seller =(Seller)request.getSession().getAttribute("Seller");
+		for(int i =0;i<seller.requests.size();i++){
+		%>
+			<button class="collapsible">ID:<%=seller.requests.get(i).get(0) %> , User: <%=seller.requests.get(i).get(1) %></button>
+			<div class="content_collapsible">
+				<p>Αίτημα: <%=seller.requests.get(i).get(2) %></p>
+				<form method="post" action="Complete_Request">
+					<textarea name="answer" placeholder="Απάντηση" cols="45" rows="5" style="resize:none"></textarea>
+					<input name="req_id" style="display:none" value="<%=seller.requests.get(i).get(0) %>"><br><br>
+					<button type="submit" class="MoreButton">Καταχώρηση</button><button type="button" class="MoreButton" style="margin-left:2em;" onclick="close_req()">Κλείσιμο Αιτημάτων</button><br>
+				</form>
+			</div>
+		<%
+		}
+		%>
+	</div>
+
+<script src="${pageContext.request.contextPath}/js/sellerJQ.js"></script>	
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 </body>
 </html>

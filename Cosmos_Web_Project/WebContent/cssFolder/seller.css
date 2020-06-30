@@ -23,7 +23,7 @@ html *
 }
 
 .content {
-  max-width: 443.5px;
+  max-width: 229px;
   margin: 0 auto;
   text-align : center;
 }
@@ -175,4 +175,42 @@ header {
   width: 350px;
   height: 40px;
   font-size : 25px;
+}
+
+.top_right_corner{
+	position : absolute;
+	top : 0;
+	right : 0;
+	text-align:center;'
+}
+
+.top_left_corner{
+	position : absolute;
+	top : 50px;
+	left : 0;
+	text-align : center;
+}
+
+.collapsible {
+  background-color: #CC0000;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #990000;
+}
+
+.content_collapsible {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
 }

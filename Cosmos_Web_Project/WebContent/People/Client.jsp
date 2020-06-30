@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/cssFolder/seller.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/cssFolder/client.css">
 	<meta charset="utf-8">
 	<title>Κεντρική σελίδα Πωλητή</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -229,7 +229,7 @@
 		<button class="MoreButton" id="cancel_profile" onclick="cancel_sub_options()">Ακύρωση</button><br><br>
 	</div>
 
-<script src="${pageContext.request.contextPath}/js/sellerJQ.js"></script>
+<script src="${pageContext.request.contextPath}/js/clientJQ.js"></script>
 <script>
 	function define_card(form){
 		if(document.getElementById("card_number").value.startsWith("0") || document.getElementById("card_number").value.startsWith("1") ||

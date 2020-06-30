@@ -78,6 +78,7 @@ public class Login extends HttpServlet {
 					case("sellers"):
 						
 						Seller seller = new Seller(username , stmt);
+						seller.Collect_Requests(stmt);
 						seller.set_profile_values(request);
 						request.getSession().setAttribute("Seller", seller); // add to session
 						request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
