@@ -14,7 +14,7 @@ window.onload = function ()
 	change_sub_buttons = $("#change_sub_options").html();
 	
 	if(document.getElementById("q_a").value == "pay_charge"  &&
-	document.getElementById("client_charge").value !="0.0" && document.getElementById("client_debt").value !="0.0")
+	document.getElementById("client_debt").value !="0.0")
 		pay_sub();
 	
 	else if (document.getElementById("q_a").value == "refresh_account")
@@ -39,7 +39,7 @@ function show_profile_options(){
 function show_sub_mini_info(){
 	$("#initial_sub").html(change_sub);
 	$("#initial_sub_button").html(change_sub_buttons);
-	if(document.getElementById("client_charge").value=="0.0" && document.getElementById("client_debt").value=="0.0"){
+	if(document.getElementById("client_debt").value=="0.0"){
 		document.getElementById("warning_change_sub").style.display = "none";
 		document.getElementById("pay_charge_button").style.display = "none";
 	}
@@ -53,4 +53,25 @@ function cancel_sub_options(){
 function pay_sub(){
 	$("#initial_sub").html( $("#pay_bill").html() );
 	$("#initial_sub_button").html( $("#pay_bill_buttons").html() );
+}
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+
+function close_req(){
+	document.getElementById("requests").style.display = "none";
+	document.getElementById("requestsbutton").style.display = "none";
+	window.scrollTo(0,0);
 }

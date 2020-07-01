@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8" session="true"%>
+    pageEncoding="utf-8" session="true" import="People.Client"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,17 +32,14 @@
 	<div class = "content">
 		<div class="header">
 			<div class="topnav">
-			  	<a href="#main">Αρχική</a>
-			  	<a href="#requests">Αιτήματα</a>
+			  	<a href="#requests" onclick="return show_requests();">Αιτήματα</a>
 			  	<a href="Client_Information">Πληροφορίες</a>
 			  	<a href="logout">Αποσύνδεση</a>
 			</div>
 		</div>
 	</div>
 	
-	<h3 style="text-align:center;font-size:42px;color:#475a57;"> <strong> Καλώς Ήρθατε ${username}
-	
-	</strong></h3>
+	<h3 style="text-align:center;font-size:42px;color:#475a57;"> <strong> Καλώς Ήρθατε ${username}</strong></h3>
 		
 	<div class="row">
 		<div class="column">
@@ -138,7 +135,7 @@
 			</style>
 		</div>
 		</div>
-		
+		<br><br><br>
 	<!-- divs for replacement -->
 	
 	<div class="container" id="options_profile" style="display:none">
@@ -228,7 +225,41 @@
 		<button class="MoreButton" form="pay_sub_bill" type="submit">Πληρωμή</button><br><br>
 		<button class="MoreButton" id="cancel_profile" onclick="cancel_sub_options()">Ακύρωση</button><br><br>
 	</div>
-
+	
+	<div style="text-align:center;display:none" id="requestsbutton">
+		<button type="button" class="MoreButton" onclick="close_req()">Κλείσιμο Αιτημάτων</button>
+	</div>
+	
+	<br><br>
+	
+	<div style="text-align:center;display:none" id="requests">
+		<!--  show requests -->
+		<%
+		Client client =(Client)request.getSession().getAttribute("Client");
+		for(int i =0;i<client.requests.size();i++){
+		%>
+			<button class="collapsible">ID:<%=client.requests.get(i).get(0) %> <ion-icon size="small" color="black" name="square-outline"></ion-icon></button>
+			<div class="content_collapsible">
+				<p>Αίτημα: <%=client.requests.get(i).get(1) %></p>
+			</div>
+		<%
+		}
+		%>
+		<!-- show responses -->
+		<%
+		for(int i =0;i<client.responses.size();i++){
+		%>
+			<button class="collapsible">ID:<%=client.responses.get(i).get(0) %> <ion-icon size="small" color="black" name="checkbox-outline"></ion-icon></button>
+			<div class="content_collapsible">
+				<p>Αίτημα: <%=client.requests.get(i).get(1) %></p>
+				<p>Απάντηση: <%=client.responses.get(i).get(2) %></p>
+				<p>Υπεύθυνος: <%=client.responses.get(i).get(1) %></p>
+			</div>
+		<%
+		}
+		%>
+	</div>
+	
 <script src="${pageContext.request.contextPath}/js/clientJQ.js"></script>
 <script>
 	function define_card(form){
@@ -255,6 +286,17 @@
 		else {
 			document.getElementById("bank").style.visibility = "hidden";
 		}
+	}
+	
+	function show_requests(){
+		<%
+		if(client.requests.isEmpty() && client.responses.isEmpty()){
+		%>
+		alert("Δεν έχετε υποβάλει κανένα αίτημα.");
+		<%}else{%>
+		document.getElementById("requests").style.display = "block";
+		document.getElementById("requestsbutton").style.display = "block";
+		<%} %>
 	}
 </script>
 </body>

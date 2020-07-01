@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.security.SecureRandom;
 public class Client extends Users {
@@ -15,6 +17,8 @@ public class Client extends Users {
     public PhoneNumber phonenumber;
     public Program program;
     public Bill bill;
+    public List<List<String>> requests = new ArrayList<List<String>>();  
+    public List<List<String>> responses = new ArrayList<List<String>>();  
 
     /**
      * Register constructor
@@ -53,7 +57,6 @@ public class Client extends Users {
     {
     	super();
     	String sql = "Select * from client where username ='" + username + "'";
-    	double tmp = 0;
     	try 
     	{
     		ResultSet rs = stmt.executeQuery(sql);
@@ -70,13 +73,13 @@ public class Client extends Users {
     			program = new Program(rs.getInt("id"));
     			setName(rs.getString("fname"));
     			setSurname(rs.getString("lname"));
-    			tmp = rs.getDouble("bill");
     		}
     		bill = new Bill(stmt , phonenumber.getPhoneNum());
+    		bill.setPrevious_debt(debt);
+    		bill.setCurrent_bill();
     		program.set_Program(stmt);
     		
-    		if(tmp!=0) bill.setCurrent_bill(tmp);
-    		else bill.setCurrent_bill(debt + program.getCharge());
+    		
     	}
     	catch(Exception e) 
     	{
@@ -156,7 +159,7 @@ public class Client extends Users {
     	
     	double[] sub_charge = new double[]{30.9,42.9,31.99,40.59,47.48,27.95,35.75,49.64};
     	
-    	int n = ThreadLocalRandom.current().nextInt(1, 9);
+    	int n = ThreadLocalRandom.current().nextInt(1, 8);
     	phonenumber.setPackageNumber(sub_name[n]);
     	setId(stmt);
     	int id = getId();
@@ -198,6 +201,7 @@ public class Client extends Users {
     	request.getSession().setAttribute("email", email);
     	request.getSession().setAttribute("firstname", getName());
     	request.getSession().setAttribute("lastname", getSurname());
+    	request.getSession().setAttribute("infooo", "");
     }
     
     public void Add_Request(String req , Statement stmt , HttpServletRequest request) 
@@ -212,9 +216,38 @@ public class Client extends Users {
     		ResultSet rs = stmt.executeQuery("Select max(id) from requests");
     		while(rs.next()) req_id = rs.getInt("max") + 1;
     		
-    		stmt.executeUpdate("Insert into requests values("+req_id+",'" + getUsername() + "','" + req + "')");
+    		stmt.executeUpdate("Insert into requests values("+req_id+",'" + getUsername() + "','" + req + "','false')");
     		request.getSession().setAttribute("infooo", "Το αίτημα σας καταχωρήθηκε.<br>Μέσος χρόνος απάντησης: 1-2 μέρες.");
     		return;
+    	}
+    	catch(Exception e) {e.printStackTrace();}
+    }
+    
+    public void Collect_Responses_Requests(Statement stmt) {
+    	try 
+    	{
+    		
+    		List<String> l = new ArrayList<>();
+    		List<String> l1 = new ArrayList<>();
+    		
+    		ResultSet rs = stmt.executeQuery("Select * from requests where request_giver='"+getUsername() + "'");
+    		while(rs.next()) {
+    			if(rs.getString("answer").equals("f")) {
+    				l.add(String.valueOf(rs.getInt("id")));
+    				l.add(rs.getString("add_info"));
+    				requests.add(l);
+    				l= new ArrayList<>();
+    			}
+    		}
+    		
+    		rs = stmt.executeQuery("Select * from responses where request_giver='"+getUsername() + "'");
+    		while(rs.next()) {
+    			l1.add(String.valueOf(rs.getInt("id")));
+    			l1.add(rs.getString("response_giver"));
+    			l1.add(rs.getString("response"));
+    			responses.add(l1);
+    			l1 = new ArrayList<>();
+    		}
     	}
     	catch(Exception e) {e.printStackTrace();}
     }

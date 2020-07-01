@@ -190,17 +190,19 @@ if (username.equals("") && email.equals("") && fname.equals("") && lname.equals(
     	try {
     		ResultSet rs = stmt.executeQuery("Select * from requests");
     		while(rs.next()) {
-    			List<String> l = new ArrayList<>();
-    			l.add(String.valueOf(rs.getInt("id")));
-    			l.add(rs.getString("request_giver"));
-    			l.add(rs.getString("add_info"));
-    			requests.add(l);
+    			if(rs.getString("answer").equals("f")) {
+    				List<String> l = new ArrayList<>();
+        			l.add(String.valueOf(rs.getInt("id")));
+        			l.add(rs.getString("request_giver"));
+        			l.add(rs.getString("add_info"));
+        			requests.add(l);
+    			}
     		}
     	}
     	catch(Exception e) {e.printStackTrace();}
     }
     
-    public void Answer_Request(String req_id , String response , Statement stmt , HttpServletRequest request) 
+    public void Answer_Request(String req_id , String response , String giver , Statement stmt , HttpServletRequest request) 
     {
     	try 
     	{
@@ -217,7 +219,8 @@ if (username.equals("") && email.equals("") && fname.equals("") && lname.equals(
         		stmt.executeUpdate("update requests set answer=true where id=" + req_id);
         		
         		//insert to responses
-        		stmt.executeUpdate("Insert into responses values("+String.valueOf(i)+",'"+getUsername()+"','"+response+"')");
+        		stmt.executeUpdate("Insert into responses values("+String.valueOf(i)+",'"+getUsername()+"','"+response+"'"
+        				+ ",'"+giver+"')");
         		request.getSession().setAttribute("infooo", "Η απάντηση καταχωρήθηκε.");
     		}
     	}

@@ -3,6 +3,8 @@ package com;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -42,7 +44,9 @@ public class Complete_Request extends HttpServlet {
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
 			Seller seller = (Seller)request.getSession().getAttribute("Seller");
-			seller.Answer_Request(request.getParameter("req_id"), request.getParameter("answer"), stmt, request);
+			seller.Answer_Request(request.getParameter("req_id"), request.getParameter("answer"), request.getParameter("req_giver"),stmt, request);
+			seller.requests = new ArrayList<List<String>>();  
+			seller.Collect_Requests(stmt);
 			request.getSession().setAttribute("Seller", seller); // add to session
 			request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
 		}

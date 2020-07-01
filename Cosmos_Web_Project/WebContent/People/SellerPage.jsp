@@ -10,7 +10,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
-<body style = "background-color : rgb(212,207,199);">
+<body style = "background-color:color:#475a57;">
 
 	<div style="position:absolute;top:0;left:0;font-size:35px;color:#4CAF50">
 		<p style="font-size:40;">${infooo} </p>
@@ -171,6 +171,7 @@
 		</form>
 	</div>
 	<br><br>
+	
 	<div style="text-align:center;display:none" id="requests">
 		<%
 		Seller seller =(Seller)request.getSession().getAttribute("Seller");
@@ -182,6 +183,7 @@
 				<form method="post" action="Complete_Request">
 					<textarea name="answer" placeholder="Απάντηση" cols="45" rows="5" style="resize:none"></textarea>
 					<input name="req_id" style="display:none" value="<%=seller.requests.get(i).get(0) %>"><br><br>
+					<input name="req_giver" style="display:none" value="<%=seller.requests.get(i).get(1) %>"><br><br>
 					<button type="submit" class="MoreButton">Καταχώρηση</button><button type="button" class="MoreButton" style="margin-left:2em;" onclick="close_req()">Κλείσιμο Αιτημάτων</button><br>
 				</form>
 			</div>

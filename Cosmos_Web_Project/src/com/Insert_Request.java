@@ -3,6 +3,7 @@ package com;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -47,7 +48,9 @@ public class Insert_Request extends HttpServlet {
 			Client client = (Client)request.getSession().getAttribute("Client");
 			
 			client.Add_Request((String)request.getParameter("problem"), stmt, request);
-			
+			client.requests = new ArrayList<>();
+			client.responses = new ArrayList<>();
+			client.Collect_Responses_Requests(stmt);
 			request.getSession().setAttribute("Client", client); // add to session
 			request.getSession().setAttribute("quick_access", "");
 			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);

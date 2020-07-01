@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 public class Bill {
 
     private long phonenumber;
-    private List<Call> CustomerCalls = new ArrayList<>();
-    private double charge;
-    private double previous_debt , current_bill;
+    public List<Call> CustomerCalls = new ArrayList<>();
+    private double charge;//subscription's price
+    private double previous_debt , current_bill; //current_bill = charge + previous_debt
     private String bill_date = "";
 
     /**
@@ -31,7 +31,7 @@ public class Bill {
         
         previous_debt = debt;
         
-        bill_date = "2020-7-1";
+        bill_date = "2020-8-1";
     }
     
     public String getBill_date() {
@@ -45,7 +45,6 @@ public class Bill {
 	public Bill(Statement stmt , long pn) 
     {
     	phonenumber = pn;
-    	//put 0 to everything in case client has payed the bill
     	bill_date = "";
     	current_bill = 0;
     	charge=0;
@@ -56,7 +55,7 @@ public class Bill {
     		
     		while(rs.next()) {
     			bill_date = rs.getString("billdate");
-    			current_bill = rs.getDouble("price");
+    			charge = rs.getDouble("price");
     		}
     		
     		rs = stmt.executeQuery("Select * from call where phonecaller1=" + String.valueOf(phonenumber));
@@ -74,8 +73,7 @@ public class Bill {
     	request.getSession().setAttribute("debtt", previous_debt);
     	request.getSession().setAttribute("subcharge", current_bill +" €");
     	if (past.equals("pay_charge") && current_bill==0.0 && previous_debt==0.0 ) request.getSession().setAttribute("infooo", "Έχετε πληρώσει όλες τις οφειλές σας.");
-		else request.getSession().setAttribute("infooo", "");
-    }
+	}
     
     public void append(Statement stmt) 
     {
@@ -106,13 +104,12 @@ public class Bill {
     public void pay_bill(Statement stmt , HttpServletRequest request) {
     	
     	try {
-    		System.out.println(phonenumber);
     		stmt.executeUpdate("delete from bill where phonenumber=" + String.valueOf(phonenumber));
     		stmt.executeUpdate("update client set debt=0 , bill=0 where phonenumber="+ String.valueOf(phonenumber));
     		request.getSession().setAttribute("infooo", "Επιτυχής πληρωμή λογαριασμού.");
+    		//set next bill
+    		stmt.executeUpdate("Insert into bill values("+String.valueOf(phonenumber)+",'2020-8-1'," + String.valueOf(charge)+")");
     		previous_debt = 0;
-    		charge = 0;
-    		current_bill = 0;
     	}
     	catch(Exception e)
     	{
@@ -149,8 +146,12 @@ public class Bill {
 		return current_bill;
 	}
 
-	public void setCurrent_bill(double current_bill) {
-		this.current_bill = current_bill;
+	public void setCurrent_bill() {
+		this.current_bill = previous_debt + charge;
+	}
+	
+	public void setCurrent_bill(double b) {
+		this.current_bill = b;
 	}
 
 	// Different methods to be used later on...

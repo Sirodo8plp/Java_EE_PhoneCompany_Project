@@ -27,12 +27,13 @@ public class Client_Information extends HttpServlet {
 		request.getSession().setAttribute("first_name", client.getName());
 		request.getSession().setAttribute("surname", client.getSurname());
 		request.getSession().setAttribute("subscription", client.program.getSubscriptionName());
-		request.getSession().setAttribute("charge" , client.bill.getCurrent_bill());
+		request.getSession().setAttribute("charge" , client.program.getCharge());
 		request.getSession().setAttribute("minutes", client.program.getMinutes());
 		request.getSession().setAttribute("mb", client.program.getMb());
 		request.getSession().setAttribute("sms", client.program.getSms());
-		request.getSession().setAttribute("debt", client.bill.getPrevious_debt());
-		request.getSession().setAttribute("bill", client.bill.getCharge());
+		request.getSession().setAttribute("debt", client.getDebt());
+		request.getSession().setAttribute("bill", client.bill.getCurrent_bill());
+		System.out.println(client.bill.getCurrent_bill());
 		request.getSession().setAttribute("bill_date", client.bill.getBill_date());
 		
 		request.getRequestDispatcher("/client_information.jsp").forward(request, response);

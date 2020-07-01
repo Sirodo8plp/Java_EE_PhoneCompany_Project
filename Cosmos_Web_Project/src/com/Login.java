@@ -67,9 +67,10 @@ public class Login extends HttpServlet {
 					case("client"):
 						
 						Client client = new Client(username , stmt);
+						client.Collect_Responses_Requests(stmt);
 						client.set_profile_sv(request);
 						client.program.set_Program_sv(stmt, request);
-						client.bill.setPrevious_debt(client.getDebt());
+						client.bill.setCurrent_bill(client.getDebt() + client.program.getCharge());
 						client.bill.set_bill_sv(request , past);
 						client.program.set_Remaining_Program_SV(request);
 						request.getSession().setAttribute("Client", client); // add to session
