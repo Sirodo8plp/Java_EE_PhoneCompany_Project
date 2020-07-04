@@ -11,19 +11,21 @@
 <label id="prof" style="visible:hidden"></label>
 <button onclick="topFunction()" id="myBtn" title="Go to top"><ion-icon size="large" name="arrow-up-circle"></ion-icon></button>
 	
-	<header>
-		<div class="scrollmenu">
-			<a href="#home">Ιδιώτες</a>
-  			<a href="#log">Είσοδος</a>
-  			<a href="#contact">Ανανέωση</a>
-  		</div>
-	</header>
+	<div class = "content">
+		<div class="header">
+			<div class="topnav">
+			  	<a href="Show_Subscriptions">Προγράμματα</a>
+			  	<a href="#log">Είσοδος</a>
+			  	<a href="register.jsp">Δημιουργία Λογαριασμού</a>
+			</div>
+		</div>
+	</div>
 	
 	<br><br><br>
 	
 	<div class="container">
 		<img src="images/sales1.jpg" alt = "45% Έκπτωση σε Online αγορές.">
-		<form action="ClientSubs.jsp"><button type="submit" class="btn" onClick="document.getElementById('prof').value='default'">Μάθετε περισσότερα</button></form>
+		<form action="Show_Subscriptions"><button type="submit" class="btn" onClick="document.getElementById('prof').value='default'">Μάθετε περισσότερα</button></form>
 	</div>
 	
 	<br><br>
@@ -40,42 +42,59 @@
 		</div>
 	</header>
 	
-	<br><br>
+	<br><br><br><br>
 	
-	<h1 style="color:#585858;text-align:center;">Δημοφιλή Προγράμματα</h1>
+	<h1 style="color:#585858;text-align:center;">Δημοφιλή Προγράμματα</h1><br><br>
 	
-	<br><br>
-	
-		<div class="row center1">
-			<div class="column">
-				<div style="text-align:center">
-					<h1 style="color:#475a57">Cosmos Mobile L</h1>
-					<p>Cosmos mobile για απίστευτα<br>περισσότερες δυνατότητες.</p>
-					<p>Σταθερό Πάγιο :</p>
-					<p style="font-size:35px;color:green">30.90€</p>
+	<table style="text-align:center;margin:0px auto;">
+		<tr>
+			<td><h1 style="color:#475a57">Cosmos Mobile L</h1></td>
+			<td style="padding-left:25px;padding-right:25px;"><h1 style="color:#475a57">Cosmos Green Max</h1></td>
+			<td><h1 style="color:#475a57">Cosmos Green Final</h1></td>
+		</tr>
+		<tr>
+			<td><p>Cosmos mobile για απίστευτα<br>περισσότερες δυνατότητες.</p></td>
+			<td style="padding-left:25px;padding-right:25px;"><p>Cosmos Green Max = GB για ΠΑΝΤΑ.<br>Για να έχεις πραγματικά πολλά data.</p></td>
+			<td><p>Αναβάθμισε την επικοινωνία σου με απίστευτες<br>ταχύτητες internet και μοναδικές παροχές!</p></td>
+		</tr>
+		<tr>
+			<td><p>Σταθερό Πάγιο </p></td>
+			<td style="padding-left:25px;padding-right:25px;"><p>Σταθερό Πάγιο </p></td>
+			<td><p>Σταθερό Πάγιο </p></td>
+		</tr>
+		<tr>
+			<td><p style="font-size:35px;color:green"><del>30.90€</del></p></td>
+			<td style="padding-left:25px;padding-right:25px;"><p style="font-size:35px;color:green"><del>47.48€</del></p></td>
+			<td><p style="font-size:35px;color:green"><del>49.64€</del></p></td>
+		</tr>
+		<tr>
+			<td><p style="font-size:35px;color:green">17.00 €</p></td>
+			<td style="padding-left:25px;padding-right:25px;"><p style="font-size:35px;color:green">26.00 €</p></td>
+			<td><p style="font-size:35px;color:green">27.30 €</p></td>
+		</tr>
+		<tr>
+			<td>
+				<form method="get" action="Show_Subscriptions">
 					<button class="MoreButton">Περισσότερα<ion-icon name="arrow-redo-circle"></ion-icon></button>
-				</div>
-			</div>
-			<div class="column">
-				<div style="text-align:center">
-					<h1 style="color:#475a57">Cosmos Green Max</h1>
-					<p>Cosmos Green Max = GB για ΠΑΝΤΑ.</p><p>Για να έχεις πραγματικά πολλά data.</p>
-					<p>Σταθερό Πάγιο :</p>
-					<p style="font-size:35px;color:green">47.48€</p>
+					<input name="selected_sub" value="Cosmos Mobile L" style="display:none">
+				</form>
+			</td>
+			<td style="padding-left:25px;padding-right:25px;">
+				<form method="get" action="Show_Subscriptions">
 					<button class="MoreButton">Περισσότερα<ion-icon name="arrow-redo-circle"></ion-icon></button>
-				</div>
-			</div>
-		</div>
-		
-		<br><br><br><br>
-		
-		<div style="text-align:center">
-			<button class="MoreButton">Όλα τα cosmos προγράμματα <ion-icon name="enter"></ion-icon></button>
-		</div>
-		
-		<br>
-		
-		<div id="log" class="container1">
+					<input name="selected_sub" value="Cosmos Green Max" style="display:none">
+				</form>
+			</td>
+			<td>
+				<form method="get" action="Show_Subscriptions">
+					<button class="MoreButton">Περισσότερα<ion-icon name="arrow-redo-circle"></ion-icon></button>
+					<input name="selected_sub" value="Cosmos Green Final" style="display:none">
+				</form>
+			</td>
+		</tr>
+	</table>
+	
+	<div id="log" class="container1">
 			<form method="post" action="${pageContext.request.contextPath}/Login">
 				<h1 style="color:#475a57">Σύνδεση</h1>
 				<h3 style="color:#475a57">Username</h3>

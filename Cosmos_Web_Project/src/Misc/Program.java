@@ -3,6 +3,8 @@ package Misc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,12 @@ public class Program {
     private float CostMin,CostMB,CostSms;
     private double charge;
     private int client_id;
-
+    public static List<List<String>> All_Subs = new ArrayList<List<String>>();
+    
+    public Program() {
+    	//null constructor for using All_Subs in home page.
+    }
+    
    	/**
    	 * Program constructor :
    	 * 	1) Firstly,instantiate client's id.
@@ -200,6 +207,24 @@ public class Program {
     	return;
     }
 
+    public static void Gather_Subs(Statement stmt) {
+    	try {
+    		ResultSet rs = stmt.executeQuery("Select * from subs");
+    		List<String> l = new ArrayList<>();
+    		while(rs.next()) {
+    			l.add(rs.getString("subname"));
+    			if(rs.getInt("minutes") == -1) l.add("Απεριόριστα");
+    			else l.add(String.valueOf(rs.getInt("minutes")));
+    			l.add(String.valueOf(rs.getInt("sms")));
+    			l.add(String.valueOf(rs.getInt("mb")));
+    			l.add(String.valueOf(rs.getDouble("charge")));
+    			All_Subs.add(l);
+    			l = new ArrayList<>();
+    		}
+    	}
+    	catch(Exception e) {e.printStackTrace();}
+    }
+    
     public void setCharge(int min , int sms , int mb , float cmin , float csms , float cmb) {
     	if(min==-1) min = 0;
     	this.charge = cmin*min + csms*sms + cmb*mb;
