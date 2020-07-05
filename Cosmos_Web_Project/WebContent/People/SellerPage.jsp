@@ -2,6 +2,12 @@
     pageEncoding="utf-8" session="true"
     import="People.Seller"%>
 <!DOCTYPE html>
+<%
+response.setHeader("Cache-Control", "no-cache");
+response.setHeader("Cache-Control", "no-store");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+%>
 <html>
 <head>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/cssFolder/seller.css">

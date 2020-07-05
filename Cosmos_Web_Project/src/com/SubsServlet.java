@@ -69,10 +69,6 @@ public class SubsServlet extends HttpServlet {
 		Connection con = datasource.getConnection();
 		Statement stmt = con.createStatement();
 		
-		/*
-		 * top table - subscriptions from db 
-		 */
-		
 		out.println("<table class=\"tg\"> ");
 		out.println("<thead>");
 		out.println("<tr>");
@@ -113,7 +109,7 @@ public class SubsServlet extends HttpServlet {
 		out.println("</tbody></table");
 		
 		out.println("<br><br><div class=\"container1\"><button type=\"submit\" class=\"MoreButton\" style=\"font-size:25px;\" onclick=\"NewSub()\">Προσθήκη Προγράμματος</button>");
-		out.println("<br><br><ion-icon name=\"arrow-back-circle-sharp\"></ion-icon><p style = \"font-size:20px;color:#475a57;\"><a href=\"People/SellerPage.jsp\">Επιστροφή</a></p>");
+		out.println("<br><br><ion-icon name=\"arrow-back-circle-sharp\"></ion-icon><p style = \"font-size:20px;color:#475a57;\"><a href=\"Return_To_Seller\">Επιστροφή</a></p>");
 		
 		out.println("<table class=\"tg\" style=\"visibility:hidden\" id=\"nc\" >");
 		out.println("<thead>");
@@ -135,17 +131,6 @@ public class SubsServlet extends HttpServlet {
 		
 		out.println("<br><div class=\"container1\"><button type=\"submit\" class=\"MoreButton\" style=\"font-size:25px;visibility:hidden\" id=\"insrt\" onclick=\"CheckINS()\" >Εισαγωγή</button></div>");
 		
-		/*
-		out.println("<br><label class=\"container1\" id=\"error\" style=\"color:maroon;visibility:hidden\"></label>");
-		
-		
-		 * <invisible forms for submit>
-		 
-		out.println("<div style=\"visibility:hidden\"><form method\"post\" action=\"InsertSub\"><button type=\"submit\" id=\"call_for_insert\"></button></form></div>");
-		
-		 * </invisible forms for submit>
-		 */
-		
 		out.println("<script src=\"https://unpkg.com/ionicons@5.0.0/dist/ionicons.js\"></script>");
 		
 		
@@ -156,28 +141,6 @@ public class SubsServlet extends HttpServlet {
 					out.println("else { elem.style.visibility = \"hidden\"; document.getElementById(\"insrt\").style.visibility = \"hidden\";}");
 				out.println("}");
 				
-				/*
-				out.println("function CheckINS() { ");
-					out.println("var msg = \"\";");
-					out.println("var minutes = document.getElementById(\"insert1\");");
-					out.println("if (isNaN(minutes) || ((!isNaN(minutes) && minutes.value < 0))) msg += \"Η στήλη με τα λεπτά ομιλίας μπορεί να περιέχει μόνο θετικούς αριθμούς.\n\";");
-					out.println("var sms = document.getElementById(\"insert2\");");
-					out.println("if (isNaN(sms) || ((!isNaN(sms) && sms.value < 0))) msg += \"Η στήλη με τα sms μπορεί να περιέχει μόνο θετικούς αριθμούς.\n\";");
-					out.println("var mb = document.getElementById(\"insert3\");");
-					out.println("if (isNaN(mb) || ((!isNaN(mb) && mb.value < 0))) msg += \"Η στήλη με τα δεδομένα μπορεί να περιέχει μόνο θετικούς αριθμούς.\n\";");
-					out.println("var MINcost = document.getElementById(\"insert4\");");
-					out.println("if (isNaN(MINcost) || ((!isNaN(MINcost) && MINcost.value < 0))) msg += \"Το κόστος λεπτού ομιλίας μπορεί να περιέχει μόνο θετικούς αριθμούς.\n\";");
-					out.println("var SMScost = document.getElementById(\"insert5\");");
-					out.println("if (isNaN(SMScost) || ((!isNaN(SMScost) && SMScost.value < 0))) msg += \"Το κόστος μηνύματος μπορεί να περιέχει μόνο θετικούς αριθμούς.\n\";");
-					out.println("var MBcost = document.getElementById(\"insert6\");");
-					out.println("if (isNaN(MBcost) || ((!isNaN(MBcost) && MBcost.value < 0))) msg += \"Το κόστος δεδομένων μπορεί να περιέχει μόνο θετικούς αριθμούς.\n\";");
-					out.println("var CHARGE = document.getElementById(\"insert7\");");
-					out.println("if (isNaN(CHARGE) || ((!isNaN(CHARGE) && CHARGE.value < 0))) msg += \"Το κόστος δεδομένων μπορεί να περιέχει μόνο θετικούς αριθμούς.\n\";");
-					out.println("if(msg==\"\")alert('success');");
-					out.println("else alert('error');");
-				out.println(" } ");
-				*/
-			
 			out.println("</script>");
 		
 		

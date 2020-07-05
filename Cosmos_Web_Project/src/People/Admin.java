@@ -34,7 +34,7 @@ public class Admin extends Users {
     		ResultSet rs = stmt.executeQuery(sql);
     		while(rs.next()) 
     		{
-    			username = rs.getString("username");
+    			setUsername(rs.getString("username"));
     			saltPass = rs.getString("saltpass");
     			salt = rs.getString(salt);
     			email = rs.getString("email");
