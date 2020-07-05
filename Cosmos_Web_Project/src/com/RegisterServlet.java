@@ -21,6 +21,9 @@ import java.sql.Connection;
 
 
 
+/**
+ * Servlet implementation class RegisterServlet
+ */
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -46,11 +49,7 @@ public class RegisterServlet extends HttpServlet {
     public RegisterServlet() {
         super();
     }
-    
-    protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
-    	doPost(request , response);
-    }
-    
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     		throws ServletException, IOException {
 		String requestType= request.getParameter("requestType");
@@ -113,10 +112,11 @@ public class RegisterServlet extends HttpServlet {
 			    }
 			    else 
 			    {
-			    	Admin seller = new Admin(username , fname , lname , "Admin" , SPcode , email , password);
-			    	seller.Register(stmt , request);
-			    	request.getSession().setAttribute("Seller", seller);
-			    	request.getSession().setAttribute("Type","seller");			 				 
+			    	Admin admin = new Admin(username , fname , lname , "Admin" , SPcode , email , password);
+			    	admin.Register(stmt , request);
+			    	request.getSession().setAttribute("Admin", admin);
+			    	request.getSession().setAttribute("Type","admin");			 
+			    	request.getRequestDispatcher("/People/AdminPage.jsp").forward(request, response);
 			    }
 			    
 				stmt.close();				

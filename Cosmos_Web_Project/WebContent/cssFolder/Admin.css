@@ -1,0 +1,246 @@
+html *
+{
+   font-family: arial, sans-serif !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+	float:left;
+width: 50%;
+  padding: 10px;
+  
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+ 	margin:0px auto;
+}
+
+.content {
+  max-width: 229px;
+  margin: 0 auto;
+  text-align : center;
+}
+
+.topnav {
+  	background-color: #2d2926 ;
+  	overflow: hidden;
+	}
+	
+	.topnav a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+	}
+	
+	.topnav a:hover {
+  background-color: #4CAF50;
+  color: black;
+	}
+
+	.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+	}
+	
+	ion-icon{
+	 	font-size: 64px;
+	 	color: #4CAF50;	
+	 	
+		}
+		
+	
+		.column ion-icon:hover{
+			background-color: #4CAF50;
+  			color: white;
+		}
+		
+header {
+  background-color: #2d2926;
+  padding: 0px;
+  text-align: center;
+  font-size: 30px;
+  color: #ed6a5e;
+  font-family : arial, sans-serif;
+}
+
+.container1 {
+  height: 200px;
+  position: relative;
+  padding : 0px;
+  text-align : center;
+  float:left;
+}
+
+.container2 {
+  height: 200px;
+  position: relative;
+  padding : 0px;
+  text-align : center;
+  text-align : center;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align:center;
+}
+
+.container {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+}
+
+.MoreButton {
+  background-color:#9DE0AD;
+  border: none;
+  color:#594F4F;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: auto;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.MoreButton:hover{
+	background-color:#339966;
+	color: white;
+}
+
+.InputTexts{
+	border-radius: 25px;
+  border: 2px solid #73AD21;
+  padding: 5px; 
+  width: 150px;
+  height: 40px;
+  font-size : 25px;
+}
+
+.box {
+}
+
+.box select {
+  background-color: #9DE0AD;
+  color: blue;
+  padding: 12px;
+  width: 250px;
+  border: none;
+  font-size: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+}
+
+.box::before {
+  content: "\f13a";
+  font-family: FontAwesome;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  font-size: 28px;
+  line-height: 45px;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.box:hover::before {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.box select option {
+  padding: 30px;
+}
+
+.InputTexts1{
+	border-radius: 25px;
+  border: 2px solid #73AD21;
+  padding: 5px; 
+  width: 350px;
+  height: 40px;
+  font-size : 25px;
+}
+
+.top_right_corner{
+	position : absolute;
+	top : 0;
+	right : 0;
+	text-align:center;'
+}
+
+.top_left_corner{
+	position : absolute;
+	top : 50px;
+	left : 0;
+	text-align : center;
+}
+
+.collapsible {
+  background-color: #CC0000;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #990000;
+}
+
+.content_collapsible {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+.collapsible1 {
+  background-color: #CC0000;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible1:hover {
+  background-color: #990000;
+}
+
+.content_collapsible1 {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}

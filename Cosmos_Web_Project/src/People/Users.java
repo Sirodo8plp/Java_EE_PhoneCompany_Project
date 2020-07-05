@@ -159,6 +159,17 @@ public abstract class Users {
         Users.usersCounter = usersCounter;
     }
     
+    
+   // public String getUsername() {
+     //   return username;
+   // }
+    
+    
+    
+    
+    
+    
+    
     public static String Check_Username_Existence_Reg(Statement stmt , String username ) {
     	try {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM users where username='"+username+"'");

@@ -89,7 +89,9 @@ public class Login extends HttpServlet {
 						
 						Admin admin = new Admin(username , stmt);
 						admin.set_profile_values(request);
+						
 						request.getSession().setAttribute("Admin", admin); // add to session
+						request.getRequestDispatcher("/People/AdminPage.jsp").forward(request, response);
 						break;
 				}
 			}
