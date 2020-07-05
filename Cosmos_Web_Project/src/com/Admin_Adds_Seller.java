@@ -71,7 +71,7 @@ public class Admin_Adds_Seller extends HttpServlet {
 			    Seller seller = new Seller(username , fname , lname , 
 		        		"seller" ,scode, email , password);
 		    	seller.Register(stmt , request);
-		    	request.getSession().setAttribute("infooo", "Επιτυχής καταχώρηση πωλητή.");
+		    	request.getSession().setAttribute("infooo", "Ξ•Ο€ΞΉΟ„Ο…Ο‡Ξ®Ο‚ Ο€ΟΞΏΟƒΞΈΞ®ΞΊΞ· Ο€Ο‰Ξ»Ξ·Ο„Ξ®.");
 		    	request.getRequestDispatcher("/People/AdminPage.jsp").forward(request, response);
 				
 				

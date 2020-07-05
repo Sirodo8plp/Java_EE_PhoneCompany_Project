@@ -4,9 +4,6 @@ import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.http.HttpServletRequest;
 
 public class Admin extends Users {
@@ -93,7 +90,7 @@ public class Admin extends Users {
     {
     	if (username.equals("") && email.equals("") && fname.equals("") && lname.equals("")) {
     		
-    		request.getSession().setAttribute("infooo", "Δεν έγινε καμία αλλαγή στον λογαριασμό σας.");
+    		request.getSession().setAttribute("infooo", "Ξ”ΞµΞ½ Ξ­Ξ³ΞΉΞ½Ξµ ΞΊΞ±ΞΌΞ―Ξ± Ξ±Ξ»Ξ»Ξ±Ξ³Ξ® ΟƒΟ„ΞΏΞ½ Ξ»ΞΏΞ³Ξ±ΟΞΉΞ±ΟƒΞΌΟ ΟƒΞ±Ο‚.");
     		return;
     	}
     	
@@ -104,7 +101,7 @@ public class Admin extends Users {
     		if (!username.equals("")) {
     			
     			ResultSet rs = stmt.executeQuery("Select * from users where username='" + username + "'");
-        		if (rs.next()) info += "Το όνομα σύνδεσης χρήστη υπάρχει ήδη.";
+        		if (rs.next()) info += "Ξ¤ΞΏ ΟΞ½ΞΏΞΌΞ± ΟƒΟΞ½Ξ΄ΞµΟƒΞ·Ο‚ Ο…Ο€Ξ¬ΟΟ‡ΞµΞΉ Ξ®Ξ΄Ξ·.";
         		else {
         			setUsername(username);
     				request.getSession().setAttribute("username", username);
@@ -115,7 +112,7 @@ public class Admin extends Users {
     		if(!email.equals("")) {
     			
     			ResultSet rs = stmt.executeQuery("Select * from admins where email='" + username + "'");
-        		if(rs.next()) info += "Το email χρησιμοποιείται ήδη.";
+        		if(rs.next()) info += "Ξ¤ΞΏ email Ο‡ΟΞ·ΟƒΞΉΞΌΞΏΟ€ΞΏΞµΞ―Ο„Ξ±ΞΉ Ξ±Ο€Ο Ξ¬Ξ»Ξ»ΞΏ Ο‡ΟΞ®ΟƒΟ„Ξ·.";
         		else {
         			this.email = email;	
         			request.getSession().setAttribute("email", email);
@@ -142,7 +139,7 @@ public class Admin extends Users {
     			sql += " where id=" + getId();
     			
     			stmt.executeUpdate(sql);
-    			request.getSession().setAttribute("infooo", "Επιτυχής ενημέρωση λογαριασμού.");
+    			request.getSession().setAttribute("infooo", "Ξ•Ο€ΞΉΟ„Ο…Ο‡Ξ®Ο‚ ΞµΞ½Ξ·ΞΌΞ­ΟΟ‰ΟƒΞ· Ξ»ΞΏΞ³Ξ±ΟΞΉΞ±ΟƒΞΌΞΏΟ.");
     			return;
     		}
     		else {
@@ -202,7 +199,7 @@ public class Admin extends Users {
     		
     			stmt.executeUpdate(deleteStmt);
     			stmt.executeUpdate(deleteStmt1);
-    			request.getSession().setAttribute("infooo", "Επιτυχής διαγραφή πωλητή.");
+    			request.getSession().setAttribute("infooo", "Ξ•Ο€ΞΉΟ„Ο…Ο‡Ξ®Ο‚ Ξ΄ΞΉΞ±Ξ³ΟΞ±Ο†Ξ® Ο€Ο‰Ξ»Ξ·Ο„Ξ®.");
     		//}
     		
     	}catch (Exception e) 
@@ -230,7 +227,7 @@ public class Admin extends Users {
     		stmt.executeUpdate(deleteStmt);
 			stmt.executeUpdate(deleteStmt1);
 			stmt.executeUpdate(deleteStmt2);
-			request.getSession().setAttribute("infooo", "Επιτυχής διαγραφή πελάτη.");
+			request.getSession().setAttribute("infooo", "Ξ•Ο€ΞΉΟ„Ο…Ο‡Ξ®Ο‚ Ξ΄ΞΉΞ±Ξ³ΟΞ±Ο†Ξ® Ο€ΞµΞ»Ξ¬Ο„Ξ·.");
     		
     		
     	}catch(Exception e) {e.printStackTrace();}

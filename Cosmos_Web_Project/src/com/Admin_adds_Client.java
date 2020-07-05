@@ -73,7 +73,7 @@ private DataSource datasource = null;
 	        		"client" , Long.parseLong(number),
 	        		email , password);
 	    	client.Register(stmt , request);
-	    	request.getSession().setAttribute("infooo", "�������� ���������� ������.");
+	    	request.getSession().setAttribute("infooo", "Επιτυχής προσθήκη πελάτη.");
 	    	request.getRequestDispatcher("/People/AdminPage.jsp").forward(request, response);
 		}
 		catch(Exception e) {e.printStackTrace();}
