@@ -1,8 +1,10 @@
-package com;
+package Sellers;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -12,14 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import People.Client;
+import Misc.Program;
+import People.Seller;
 
-@WebServlet("/Pay_Account")
-public class Pay_Account extends HttpServlet {
+@WebServlet("/Seller_Delete_Program")
+public class Seller_Delete_Program extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private DataSource datasource = null;
-
+    
 	public void init() throws ServletException{
 		try {
 	
@@ -29,25 +32,26 @@ public class Pay_Account extends HttpServlet {
 			throw new ServletException(e.toString());
 		}
 
-	} 
-    public Pay_Account() {
+	}
+       
+    public Seller_Delete_Program() {
         super();
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
+		try {
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
-			Client client = (Client)request.getSession().getAttribute("Client");
-			client.bill.pay_bill(stmt , request);
-			client.bill.set_bill_sv(request,"");//no quick access button was set
-			request.getSession().setAttribute("Client", client); // add to session
-			request.getSession().setAttribute("quick_access", "");
-			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
+			Seller seller = (Seller)request.getSession().getAttribute("Seller");
+			seller.Delete_Program(stmt, request, request.getParameter("subname"));
+			Program.All_Subs = new ArrayList<List<String>>();
+			Program.Gather_Subs(stmt);
+			con.close();
+			stmt.close();
+			request.getRequestDispatcher("/Seller_Subscriptions.jsp").forward(request, response);
 		}
-		catch(Exception e) {e.printStackTrace();}
+		catch(Exception e){ e.printStackTrace();}
 	}
 
 }

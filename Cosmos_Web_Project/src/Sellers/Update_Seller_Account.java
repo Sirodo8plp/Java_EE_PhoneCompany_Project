@@ -1,10 +1,8 @@
-package com;
+package Sellers;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -14,15 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import Misc.Program;
 import People.Seller;
 
-@WebServlet("/Seller_Add_Subscription")
-public class Seller_Add_Subscription extends HttpServlet {
+@WebServlet("/Update_Seller_Account")
+public class Update_Seller_Account extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private DataSource datasource = null;
-    
+
 	public void init() throws ServletException{
 		try {
 	
@@ -34,7 +31,7 @@ public class Seller_Add_Subscription extends HttpServlet {
 
 	}
 	
-    public Seller_Add_Subscription() {
+    public Update_Seller_Account() {
         super();
     }
 
@@ -44,20 +41,11 @@ public class Seller_Add_Subscription extends HttpServlet {
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
 			Seller seller = (Seller)request.getSession().getAttribute("Seller");
-			
-			seller.Add_Program(stmt, request, request.getParameter("sub_name"), request.getParameter("minutes"), 
-					request.getParameter("sms"), request.getParameter("mb"), request.getParameter("charge"), 
-					request.getParameter("costmin"), request.getParameter("costsms"), request.getParameter("costmb"));
-			
-			Program.All_Subs = new ArrayList<List<String>>();
-			Program.Gather_Subs(stmt);
-			request.getSession().setAttribute("Seller", seller);
-			con.close();
-			stmt.close();
-	    	request.getRequestDispatcher("/Seller_Subscriptions.jsp").forward(request, response);
-	    	
+			seller.Update_Account(request.getParameter("newUsername"), request.getParameter("newEmail"), 
+					request.getParameter("newFname"), request.getParameter("newLname"), stmt, request);
+			request.getSession().setAttribute("Seller", seller); // add to session
+			request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
 		}
 		catch(Exception e) {e.printStackTrace();}
 	}
-
 }

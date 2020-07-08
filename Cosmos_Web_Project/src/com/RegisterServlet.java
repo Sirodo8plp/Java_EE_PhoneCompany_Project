@@ -114,6 +114,7 @@ public class RegisterServlet extends HttpServlet {
 			    {
 			    	Admin admin = new Admin(username , fname , lname , "Admin" , SPcode , email , password);
 			    	admin.Register(stmt , request);
+			    	admin.set_profile_values(request);
 			    	request.getSession().setAttribute("Admin", admin);
 			    	request.getSession().setAttribute("Type","admin");			 
 			    	request.getRequestDispatcher("/People/AdminPage.jsp").forward(request, response);

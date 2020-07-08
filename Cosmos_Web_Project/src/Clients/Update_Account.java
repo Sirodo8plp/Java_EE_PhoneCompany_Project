@@ -1,10 +1,8 @@
-package com;
+package Clients;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -14,15 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import Misc.Program;
-import People.Seller;
+import People.Client;
 
-@WebServlet("/Seller_Delete_Program")
-public class Seller_Delete_Program extends HttpServlet {
+@WebServlet("/Update_Account")
+public class Update_Account extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private DataSource datasource = null;
     
+	private DataSource datasource = null;
+
 	public void init() throws ServletException{
 		try {
 	
@@ -33,8 +30,8 @@ public class Seller_Delete_Program extends HttpServlet {
 		}
 
 	}
-       
-    public Seller_Delete_Program() {
+	
+    public Update_Account() {
         super();
     }
 
@@ -43,15 +40,19 @@ public class Seller_Delete_Program extends HttpServlet {
 		try {
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
-			Seller seller = (Seller)request.getSession().getAttribute("Seller");
-			seller.Delete_Program(stmt, request, request.getParameter("subname"));
-			Program.All_Subs = new ArrayList<List<String>>();
-			Program.Gather_Subs(stmt);
-			con.close();
-			stmt.close();
-			request.getRequestDispatcher("/Seller_Subscriptions.jsp").forward(request, response);
+			Client client = (Client)request.getSession().getAttribute("Client");
+			
+			client.Update_Account(request.getParameter("newUsername"), request.getParameter("newEmail"), 
+					request.getParameter("newFname"), request.getParameter("newLname"), stmt, request);
+			
+			request.getSession().setAttribute("Client", client); // add to session
+			request.getSession().setAttribute("quick_access", "");
+			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
+			
 		}
-		catch(Exception e){ e.printStackTrace();}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

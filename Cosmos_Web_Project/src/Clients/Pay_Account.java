@@ -1,4 +1,4 @@
-package com;
+package Clients;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import People.Seller;
+import People.Client;
 
-@WebServlet("/Update_Seller_Account")
-public class Update_Seller_Account extends HttpServlet {
+@WebServlet("/Pay_Account")
+public class Pay_Account extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+	
 	private DataSource datasource = null;
 
 	public void init() throws ServletException{
@@ -29,23 +29,25 @@ public class Update_Seller_Account extends HttpServlet {
 			throw new ServletException(e.toString());
 		}
 
-	}
-	
-    public Update_Seller_Account() {
+	} 
+    public Pay_Account() {
         super();
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try {
+		try 
+		{
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
-			Seller seller = (Seller)request.getSession().getAttribute("Seller");
-			seller.Update_Account(request.getParameter("newUsername"), request.getParameter("newEmail"), 
-					request.getParameter("newFname"), request.getParameter("newLname"), stmt, request);
-			request.getSession().setAttribute("Seller", seller); // add to session
-			request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
+			Client client = (Client)request.getSession().getAttribute("Client");
+			client.bill.pay_bill(stmt , request);
+			client.bill.set_bill_sv(request,"");//no quick access button was set
+			request.getSession().setAttribute("Client", client); // add to session
+			request.getSession().setAttribute("quick_access", "");
+			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
 		}
 		catch(Exception e) {e.printStackTrace();}
 	}
+
 }

@@ -26,7 +26,6 @@ response.setDateHeader("Expires", 0);
 	<div class = "content">
 		<div class="header">
 			<div class="topnav">
-			  	<a href="#requests" onclick="return show_requests();">Αιτήματα</a>
 			  	<a href="logout">Αποσύνδεση</a>
 			</div>
 		</div>

@@ -1,8 +1,10 @@
-package com;
+package Sellers;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -12,14 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import People.Client;
+import Misc.Program;
+import People.Seller;
 
-@WebServlet("/Refresh_Balance")
-public class Refresh_Balance extends HttpServlet {
+@WebServlet("/Seller_Add_Subscription")
+public class Seller_Add_Subscription extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private DataSource datasource = null;
-
+    
 	public void init() throws ServletException{
 		try {
 	
@@ -31,25 +34,30 @@ public class Refresh_Balance extends HttpServlet {
 
 	}
 	
-    public Refresh_Balance() {
+    public Seller_Add_Subscription() {
         super();
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try 
-		{
+		try {
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
-			Client client = (Client)request.getSession().getAttribute("Client");
-			client.program.refresh_balance(stmt , request);
-			client.program.set_Remaining_Program_SV(request);
-			request.getSession().setAttribute("Client", client); // add to session
-			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
+			Seller seller = (Seller)request.getSession().getAttribute("Seller");
+			
+			seller.Add_Program(stmt, request, request.getParameter("sub_name"), request.getParameter("minutes"), 
+					request.getParameter("sms"), request.getParameter("mb"), request.getParameter("charge"), 
+					request.getParameter("costmin"), request.getParameter("costsms"), request.getParameter("costmb"));
+			
+			Program.All_Subs = new ArrayList<List<String>>();
+			Program.Gather_Subs(stmt);
+			request.getSession().setAttribute("Seller", seller);
+			con.close();
+			stmt.close();
+	    	request.getRequestDispatcher("/Seller_Subscriptions.jsp").forward(request, response);
+	    	
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		catch(Exception e) {e.printStackTrace();}
 	}
 
 }

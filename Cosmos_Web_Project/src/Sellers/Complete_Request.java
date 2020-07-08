@@ -1,8 +1,10 @@
-package com;
+package Sellers;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -12,10 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import People.Client;
+import People.Seller;
 
-@WebServlet("/Update_Account")
-public class Update_Account extends HttpServlet {
+@WebServlet("/Complete_Request")
+public class Complete_Request extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private DataSource datasource = null;
@@ -31,28 +33,24 @@ public class Update_Account extends HttpServlet {
 
 	}
 	
-    public Update_Account() {
+    public Complete_Request() {
         super();
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		try {
+		try 
+		{
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
-			Client client = (Client)request.getSession().getAttribute("Client");
-			
-			client.Update_Account(request.getParameter("newUsername"), request.getParameter("newEmail"), 
-					request.getParameter("newFname"), request.getParameter("newLname"), stmt, request);
-			
-			request.getSession().setAttribute("Client", client); // add to session
-			request.getSession().setAttribute("quick_access", "");
-			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
-			
+			Seller seller = (Seller)request.getSession().getAttribute("Seller");
+			seller.Answer_Request(request.getParameter("req_id"), request.getParameter("answer"), request.getParameter("req_giver"),stmt, request);
+			seller.requests = new ArrayList<List<String>>();  
+			seller.Collect_Requests(stmt);
+			request.getSession().setAttribute("Seller", seller); // add to session
+			request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		catch(Exception e) {e.printStackTrace();}
 	}
 
 }

@@ -1,4 +1,4 @@
-package com;
+package Clients;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

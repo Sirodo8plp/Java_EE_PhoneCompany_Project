@@ -1,5 +1,4 @@
-package com;
-
+package Admins;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -12,15 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+
 import People.Admin;
 
+
 /**
- * Servlet implementation class Update_Admin_Account
+ * Servlet implementation class Delete_Seller
  */
-@WebServlet("/Update_Admin_Account")
-public class Update_Admin_Account extends HttpServlet {
+@WebServlet("/Delete_Seller")
+public class Delete_Seller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+    
 	private DataSource datasource = null;
 
 	public void init() throws ServletException{
@@ -35,7 +37,8 @@ public class Update_Admin_Account extends HttpServlet {
 	}
 	
 	
-    public Update_Admin_Account() {
+	
+    public Delete_Seller() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,19 +47,26 @@ public class Update_Admin_Account extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-	
+		String username = request.getParameter("username");
+		String acode = request.getParameter("admin_code");
+		
 		try {
+			
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
 			
-			Admin admin = (Admin)request.getSession().getAttribute("Admin");
-			admin.Update_Account(request.getParameter("newUsername"), request.getParameter("newEmail"), 
-					request.getParameter("newFname"), request.getParameter("newLname"), stmt, request);
-			request.getSession().setAttribute("Seller", admin); // add to session
+			Admin admin = new Admin("","","","admin",acode,"","");
+			admin.Delete_Seller(stmt , request,username,acode);
 			request.getRequestDispatcher("/People/AdminPage.jsp").forward(request, response);
-		}
-		catch(Exception e) {e.printStackTrace();}
 			
+			
+			
+			
+		}catch(Exception e) {e.printStackTrace();}
+		
+		
+		
+		
 		
 	}
 

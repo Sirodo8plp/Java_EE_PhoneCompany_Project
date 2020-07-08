@@ -1,4 +1,4 @@
-package com;
+package Sellers;
 
 import java.io.IOException;
 import java.sql.Connection;

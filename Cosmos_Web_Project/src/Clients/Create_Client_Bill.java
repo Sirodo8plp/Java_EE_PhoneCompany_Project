@@ -1,4 +1,5 @@
-package com;
+package Clients;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -11,17 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import People.Seller;
 
-import People.Admin;
-
-
-/**
- * Servlet implementation class Delete_Seller
- */
-@WebServlet("/Delete_Seller")
-public class Delete_Seller extends HttpServlet {
+@WebServlet("/Create_Client_Bill")
+public class Create_Client_Bill extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
     
 	private DataSource datasource = null;
 
@@ -35,39 +30,23 @@ public class Delete_Seller extends HttpServlet {
 		}
 
 	}
-	
-	
-	
-    public Delete_Seller() {
+    
+	public Create_Client_Bill() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		String username = request.getParameter("username");
-		String acode = request.getParameter("admin_code");
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		try {
-			
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
-			
-			Admin admin = new Admin("","","","admin",acode,"","");
-			admin.Delete_Seller(stmt , request,username,acode);
-			request.getRequestDispatcher("/People/AdminPage.jsp").forward(request, response);
-			
-			
-			
-			
-		}catch(Exception e) {e.printStackTrace();}
-		
-		
-		
-		
-		
+			Seller seller = (Seller)request.getSession().getAttribute("Seller");
+			seller.Create_Payment(request.getParameter("client_phonenumber"), request.getParameter("bill_date"),
+					request.getParameter("bill_price") , stmt , request);
+			request.getSession().setAttribute("Seller", seller); // add to session
+			request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
+		}
+		catch(Exception e) {e.printStackTrace();}
 	}
 
 }

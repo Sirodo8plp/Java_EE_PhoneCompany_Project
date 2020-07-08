@@ -1,4 +1,4 @@
-package com;
+package Admins;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import People.Seller;
+import People.Admin;
 
-@WebServlet("/Create_Client_Bill")
-public class Create_Client_Bill extends HttpServlet {
+/**
+ * Servlet implementation class Update_Admin_Account
+ */
+@WebServlet("/Update_Admin_Account")
+public class Update_Admin_Account extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+       
 	private DataSource datasource = null;
 
 	public void init() throws ServletException{
@@ -30,23 +33,31 @@ public class Create_Client_Bill extends HttpServlet {
 		}
 
 	}
-    
-	public Create_Client_Bill() {
+	
+	
+    public Update_Admin_Account() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+	
 		try {
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
-			Seller seller = (Seller)request.getSession().getAttribute("Seller");
-			seller.Create_Payment(request.getParameter("client_phonenumber"), request.getParameter("bill_date"),
-					request.getParameter("bill_price") , stmt , request);
-			request.getSession().setAttribute("Seller", seller); // add to session
-			request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
+			
+			Admin admin = (Admin)request.getSession().getAttribute("Admin");
+			admin.Update_Account(request.getParameter("newUsername"), request.getParameter("newEmail"), 
+					request.getParameter("newFname"), request.getParameter("newLname"), stmt, request);
+			request.getSession().setAttribute("Seller", admin); // add to session
+			request.getRequestDispatcher("/People/AdminPage.jsp").forward(request, response);
 		}
 		catch(Exception e) {e.printStackTrace();}
+			
+		
 	}
 
 }

@@ -1,10 +1,8 @@
-package com;
+package Clients;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -14,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import People.Seller;
+import People.Client;
 
-@WebServlet("/Complete_Request")
-public class Complete_Request extends HttpServlet {
+@WebServlet("/Refresh_Balance")
+public class Refresh_Balance extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private DataSource datasource = null;
@@ -33,7 +31,7 @@ public class Complete_Request extends HttpServlet {
 
 	}
 	
-    public Complete_Request() {
+    public Refresh_Balance() {
         super();
     }
 
@@ -43,14 +41,15 @@ public class Complete_Request extends HttpServlet {
 		{
 			Connection con = datasource.getConnection();
 			Statement stmt = con.createStatement();
-			Seller seller = (Seller)request.getSession().getAttribute("Seller");
-			seller.Answer_Request(request.getParameter("req_id"), request.getParameter("answer"), request.getParameter("req_giver"),stmt, request);
-			seller.requests = new ArrayList<List<String>>();  
-			seller.Collect_Requests(stmt);
-			request.getSession().setAttribute("Seller", seller); // add to session
-			request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
+			Client client = (Client)request.getSession().getAttribute("Client");
+			client.program.refresh_balance(stmt , request);
+			client.program.set_Remaining_Program_SV(request);
+			request.getSession().setAttribute("Client", client); // add to session
+			request.getRequestDispatcher("/People/Client.jsp").forward(request, response);
 		}
-		catch(Exception e) {e.printStackTrace();}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
