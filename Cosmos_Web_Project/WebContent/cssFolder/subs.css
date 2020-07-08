@@ -68,21 +68,6 @@ html *
   border-radius: 12px;
 }
 
-.MoreButton1 {
-  background-color:#9DE0AD;
-  border: none;
-  color:#594F4F;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: auto;
-  cursor: pointer;
-  border-radius: 12px;
-  margin-left:3em;
-}
-
 .container1 {
   height: 200px;
   position: relative;
@@ -102,4 +87,25 @@ ion-icon
 {
 	background-color: #4CAF50;
   	color: white;
+}
+
+.InputTexts{
+border-radius: 25px;
+  border: 2px solid #73AD21;
+  padding: 5px; 
+  width: 125px;
+  height: 40px;
+  font-size : 25px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

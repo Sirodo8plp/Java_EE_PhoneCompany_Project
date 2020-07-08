@@ -227,6 +227,51 @@ if (username.equals("") && email.equals("") && fname.equals("") && lname.equals(
     	catch(Exception e) {e.printStackTrace();}
     }
     
+    public void Add_Program(Statement stmt , HttpServletRequest request , String sub_name , String minutes , String sms ,
+    						String mb , String charge , String cmin , String csms , String cmb) 
+    {
+    	try {
+    		ResultSet rs = stmt.executeQuery("Select * from subs where subname='"+sub_name+"'");
+    		if(rs.next()) {
+    			request.getSession().setAttribute("infooo", "Το όνομα προγράμματος υπάρχει ήδη.");
+        		return;
+    		}
+    		else {
+        		String info = "";
+        		if (Double.parseDouble(charge)<20) info += "Alert: Το πάγιο είναι μικρότερο του μέσου όρου.";
+        		rs = stmt.executeQuery("Select max(sub_num) from subs");
+        		int sub_num = 0;
+        		while(rs.next()) sub_num = rs.getInt("max") + 1;
+        			
+        		String sql = "Insert into subs values('"+sub_name+"',"+minutes+","+mb+","+sms+",";
+        		sql += cmin +"," + cmb + "," + csms+ ","+ charge + "," + String.valueOf(sub_num)+")";
+        		System.out.println(sql);
+        		stmt.executeUpdate(sql);
+        		info = "<br>Επιτυχής προσθήκη προγράμματος";
+        		request.getSession().setAttribute("infooo", info);
+        		return;
+        	}
+    	}
+    	catch(Exception e) {e.printStackTrace();}
+    }
+    
+    public void Delete_Program(Statement stmt , HttpServletRequest request , String sub_name) {
+    	try {
+    		ResultSet rs = stmt.executeQuery("Select * from client where program='"+sub_name+"'");
+    		if(rs.next()) {
+    			request.getSession().setAttribute("infooo","Το πρόγραμμα χρησιμοποιείται από πελάτες.<br>"
+    					+ "Η διαγραφή προγράμματος απέτυχε.");
+    			return;
+    		}
+    		else {
+    			stmt.executeUpdate("delete from subs where subname='"+sub_name+"'");
+    			request.getSession().setAttribute("infooo", "Επιτυχής διαγραφή προγράμματος.");
+    			return;
+    		}
+    	}
+    	catch(Exception e) {e.printStackTrace();}
+    }
+    
     public String getEmail() {
 		return email;
 	}

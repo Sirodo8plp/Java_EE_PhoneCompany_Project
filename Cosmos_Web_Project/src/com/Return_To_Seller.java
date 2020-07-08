@@ -17,6 +17,7 @@ public class Return_To_Seller extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		request.getSession().setAttribute("infooo", "");
 		request.getRequestDispatcher("/People/SellerPage.jsp").forward(request, response);
 	}
 }

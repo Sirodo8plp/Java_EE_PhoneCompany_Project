@@ -209,7 +209,7 @@ public class Program {
 
     public static void Gather_Subs(Statement stmt) {
     	try {
-    		ResultSet rs = stmt.executeQuery("Select * from subs");
+    		ResultSet rs = stmt.executeQuery("Select * from subs order by sub_num");
     		List<String> l = new ArrayList<>();
     		while(rs.next()) {
     			l.add(rs.getString("subname"));
@@ -218,6 +218,9 @@ public class Program {
     			l.add(String.valueOf(rs.getInt("sms")));
     			l.add(String.valueOf(rs.getInt("mb")));
     			l.add(String.valueOf(rs.getDouble("charge")));
+    			l.add(String.valueOf(rs.getDouble("costmin")));
+    			l.add(String.valueOf(rs.getDouble("costmb")));
+    			l.add(String.valueOf(rs.getDouble("costsms")));
     			All_Subs.add(l);
     			l = new ArrayList<>();
     		}
